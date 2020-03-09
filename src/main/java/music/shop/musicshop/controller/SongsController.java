@@ -3,6 +3,9 @@ package music.shop.musicshop.controller;
 import music.shop.musicshop.entity.Song;
 import music.shop.musicshop.service.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
@@ -16,8 +19,14 @@ public class SongsController {
     private SongService songService;
 
     @GetMapping
-    public List<Song> allSongs() {
-        return songService.findAll();
+    public List<Song> allSongs(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                               @RequestParam(value = "limit", required = false, defaultValue = "20") Integer limit,
+                               @RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
+                               @RequestParam(value = "sortOrder", required = false, defaultValue = "asc") String sortOrder) {
+        Sort.Direction orderDirection = Sort.Direction.fromString(sortOrder);
+        Sort sortByRequest = Sort.by(orderDirection, sortBy);
+        Pageable pageRequest = PageRequest.of(page, limit, sortByRequest);
+        return songService.findAll(pageRequest);
     }
 
     @GetMapping("/{id}")
@@ -30,12 +39,7 @@ public class SongsController {
         songService.save(song);
     }
 
-    @PutMapping
-    public Song update(@PathVariable("id") int id, Song song) {
-        return null;
-    }
-
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") int id) {
         songService.delete(id);
     }

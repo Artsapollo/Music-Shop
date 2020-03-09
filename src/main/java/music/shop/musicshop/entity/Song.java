@@ -1,7 +1,11 @@
 package music.shop.musicshop.entity;
 
+import lombok.*;
+
 import javax.persistence.*;
 
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "songs")
 public class Song {
@@ -13,48 +17,12 @@ public class Song {
     @Column(name = "artist")
     private String artist;
     @Column(name = "year")
-    private int year;
+    private Integer year;
 
-    public Song() {
-    }
-
-    public Song(String title, String artist, int year) {
+    public Song(String title, String artist, Integer year) {
         this.title = title;
         this.artist = artist;
         this.year = year;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getArtist() {
-        return artist;
-    }
-
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    @Override
-    public String toString() {
-        return "Song{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", artist='" + artist + '\'' +
-                ", year=" + year +
-                '}';
-    }
 }

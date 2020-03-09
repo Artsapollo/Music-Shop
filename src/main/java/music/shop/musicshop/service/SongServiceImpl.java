@@ -3,6 +3,7 @@ package music.shop.musicshop.service;
 import music.shop.musicshop.entity.Song;
 import music.shop.musicshop.repository.SongsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +20,8 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
-    public List<Song> findAll() {
-        return songsRepository.findAll();
+    public List<Song> findAll(Pageable pageable) {
+        return songsRepository.findAll(pageable).getContent();
     }
 
     @Override
